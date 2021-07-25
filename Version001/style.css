@@ -1,0 +1,26 @@
+    .headline {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .container {
+        min-height: 100vh;
+        min-width: 100%;
+        background-image: url(img/PuzzleBackground.bmp);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .quiz-card {
+        width: 45rem;
+    }
+    
+    .question-footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+    }
