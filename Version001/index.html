@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body onload="init()">
 
     <nav class="navbar sticky-top navbar-light bg-light">
         <div class="container-fluid">
@@ -31,31 +31,31 @@
         <div class="card quiz-card">
             <img src="img/quiz-bg-small.jpg" class="card-img-top">
             <div class="card-body">
-                <h5 class="card-title">Frage</h5>
+                <h5 class="card-title" id="questiontext">Frage</h5>
 
                 <div class="card mb-2">
-                    <div class="card-body">
+                    <div class="card-body answertext" id="answer_1" onclick="checkAnswer(1)">
                         Antwort
                     </div>
                 </div>
                 <div class="card mb-2">
-                    <div class="card-body">
+                    <div class="card-body answertext" id="answer_2" onclick="checkAnswer(2)">
                         Antwort
                     </div>
                 </div>
                 <div class="card mb-2">
-                    <div class="card-body">
+                    <div class="card-body answertext" id="answer_3" onclick="checkAnswer(3)">
                         Antwort
                     </div>
                 </div>
                 <div class="card mb-2">
-                    <div class="card-body">
+                    <div class="card-body answertext" id="answer_4" onclick="checkAnswer(4)">
                         Antwort
                     </div>
                 </div>
 
                 <div class="question-footer">
-                    <span><b>1</b> von <b>5</b> Fragen</span>
+                    <span><b>1</b> von <b id="numberOfQuestions">1</b> Fragen</span>
                     <button type="button" class="btn btn-primary">Nächste Frage</button>
                 </div>
 

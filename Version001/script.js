@@ -49,3 +49,36 @@ let questions = [{
         "right_answer": 3
     }
 ];
+
+let currentQuestion = 0;
+
+function init() {
+    document.getElementById('numberOfQuestions').innerHTML = questions.length;
+    showQuestion();
+}
+
+function showQuestion() {
+    let question = questions[currentQuestion];
+    document.getElementById('questiontext').innerHTML = question['question'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+    // showAnswers();
+}
+
+// function showAnswers() {
+//     let answer = questions[currentQuestion];
+//     for (let i = 1; i < 5; i++) {
+//         document.getElementById(`answer_${i}`).innerHTML = answer[`answer_${i}`];
+//     }
+// }
+
+function checkAnswer(x) {
+    let answercheck = questions[currentQuestion];
+    if (x == answercheck['right_answer']) {
+        document.getElementById(`answer_${x}`).style.backgroundColor = "rgba(140,190,140,0.5";
+    } else {
+        document.getElementById(`answer_${x}`).style.backgroundColor = "rgba(230,110,110,0.5";
+    }
+}

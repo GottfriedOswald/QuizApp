@@ -24,3 +24,8 @@
         align-items: center;
         padding-top: 12px;
     }
+    
+    .answertext:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.15);
+    }
