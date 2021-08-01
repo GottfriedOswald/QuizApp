@@ -1,3 +1,9 @@
+    .x-y-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
     .headline {
         display: flex;
         justify-content: center;
@@ -27,5 +33,45 @@
     
     .answertext:hover {
         cursor: pointer;
-        background-color: rgba(0, 0, 0, 0.15);
+        background-color: rgba(0, 0, 0, 0.05);
+        /* background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); */
+        /* background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+    }
+    
+    .bg-success,
+    .bg-danger {
+        color: white;
+    }
+    
+    .bg-puzzle {
+        background-image: url(img/PuzzleBackground.bmp);
+    }
+    
+    .end-screen {
+        background-image: url(img/PuzzleBackground.bmp);
+        height: 400px;
+        width: auto;
+        object-fit: contain;
+    }
+    
+    .endscreen-text {
+        background-image: url(img/PuzzleBackground.bmp);
+        margin: 0;
+        text-align: center;
+        font-size: 3rem;
+    }
+    
+    .result-text {
+        background-image: url(img/PuzzleBackground.bmp);
+        margin: 0;
+        text-align: center;
+        font-size: 2rem;
+    }
+    
+    .result-text>b {
+        margin: 0 8px;
+    }
+    
+    .d-none {
+        display: none;
     }
