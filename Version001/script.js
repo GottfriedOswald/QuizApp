@@ -61,7 +61,9 @@ let questions = [{
 
 let currentQuestion = 0; //...................................................Variable für die Frage aus dem aktuellem JSON-Array-Eintrag 
 let points = 0; //............................................................Variable für die richtig beantworteten Fragen
-
+let AUDIO_SUCCESS = new Audio('audio/correct.mp3');
+let AUDIO_FAIL = new Audio('audio/wrong-buzzer.mp3');
+let AUDIO_WIN = new Audio('audio/you-win.mp3');
 
 
 function init() {
@@ -73,15 +75,13 @@ function init() {
 function showQuestion() { //.............................................................Fragen und mögliche Antworten werden den jeweiligen html-Tags übergeben
     let question = questions[currentQuestion];
     document.getElementById('questiontext').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+    for (let i = 1; i < 5; i++) {
+        document.getElementById(`answer_${i}`).innerHTML = question[`answer_${i}`];
+    }
 
-    document.getElementById('next-button').disabled = true; //..........................der button für die nächste Frage wird deaktiviert
+    disableButton('next-button', true); //...............................................Funktionsaufruf um den Button für die nächste Frage zu deaktivieren
 
-    updateProgressbar();
-
+    updateProgressbar(); //..............................................................Funktionsaufruf um die Progress-Leiste zu aktualisieren
 }
 
 
@@ -96,27 +96,33 @@ function checkAnswer(selection) {
 
     if (selectedQuestionNumber == question['right_answer']) { //.......................die selektierte Antwort wird mit der korrekten Antwort verglichen
         document.getElementById(selection).parentNode.classList.add('bg-success'); //..wenn Bedingung erfüllt (Antwort korrekt) dann wird mit 'parentNode' dem übergeordnetem Element (Elternelement) eine Klasse hinzugefügt.Antwort wird (grün) markiert.
+        AUDIO_SUCCESS.play();
         points++; //...................................................................Anzahl der korreken Antworten wird erhöht.
     } else {
         document.getElementById(selection).parentNode.classList.add('bg-danger'); //........auch hier wird dem Elternelement eine Klasse hinzugefügt.Antwort wird rot markiert da falsche Antwort
         document.getElementById(correctAnswer).parentNode.classList.add('bg-success'); //...und hier auch, die richtige Antwort wird grün markiert
+        AUDIO_FAIL.play();
     }
-    document.getElementById('next-button').disabled = false; //..........................der button für die nächste Frage wird aktiviert
+    disableButton('next-button', false); //................................................Funktionsaufruf um den Button für die nächste Frage zu aktivieren
 }
 
+// ........... Funktion um die nächste Frage anzuzeigen ..................................................................................................................
 function nextQuestion() {
-    if (currentQuestion < questions.length - 1) { //.....................................Abfrage aktueller Arra-Eintrag kleiner ist als Anzahl der Einträge im Array
+    if (enoughQuestionsAvailable()) {
         currentQuestion++; //............................................................Array-Eintrag wird um 1 hochgezählt, quasi wird die nächste Frage gestellt
         resetSelections(); //............................................................Funktionsaufruf zum entfernen der Markierung der Antwort
         showQuestion(); //...............................................................Fragen und Antworten anzeigen
         document.getElementById('questionNumber').innerHTML = currentQuestion + 1; //....Anzeige der wievielten Frage im 'play-Screen' (question-footer)
     } else {
-        document.getElementById('play-screen').classList.add('d-none'); //...............wenn alle Fragen durch sind wird der play-screen entfernt
-        document.getElementById('end-screen').classList.remove('d-none'); //.............und der end-screen sichtbar gemacht
-        document.getElementById('points').innerHTML = points; //.........................die Anzahl der richtig beantworteten Fragen wir übergeben
+        showEndscreen();
     }
 }
 
+function enoughQuestionsAvailable() {
+    return currentQuestion < questions.length - 1; //.....................................Abfrage aktueller Arra-Eintrag kleiner ist als Anzahl der Einträge im Array
+}
+
+// ........... Funktion um die Auswahl zu löschen ..................................................................................................................
 function resetSelections() { //..........................................................in dieser Funktion werden die Antwortmarkierungen durch Entfernung der Klassen aus der Classlist entfernt
     for (let i = 1; i < 5; i++) {
         document.getElementById(`answer_${i}`).parentNode.classList.remove('bg-danger');
@@ -124,13 +130,40 @@ function resetSelections() { //.................................................
     }
 }
 
+function disableButton(button, state) {
+    document.getElementById(button).disabled = state; //..........................der button für die nächste Frage wird deaktiviert
+}
+
+// ........... Funktion um die Progress-Leiste zu aktualisieren ......................................................................................
 function updateProgressbar() {
     let percent = calcPercent();
     document.getElementById('progress-bar').style = `width:${percent}%`;
     document.getElementById('progress-bar').innerHTML = `${percent}%`;
 }
 
+// ........... Funktion um den Fortschritt zu errechnen .........................................................................................
 function calcPercent() {
     let result = Math.round(((currentQuestion + 1) / questions.length) * 100);
     return result;
+}
+
+function showEndscreen() {
+    document.getElementById('play-screen').classList.add('d-none'); //...............wenn alle Fragen durch sind wird der play-screen entfernt
+    document.getElementById('end-screen').classList.remove('d-none'); //.............und der end-screen sichtbar gemacht
+    document.getElementById('points').innerHTML = points; //.........................die Anzahl der richtig beantworteten Fragen wir übergeben
+    AUDIO_WIN.play();
+}
+
+function showPlayscreen() {
+    document.getElementById('end-screen').classList.add('d-none');
+    document.getElementById('play-screen').classList.remove('d-none'); //...............wenn alle Fragen durch sind wird der play-screen entfernt
+}
+
+// ........... Funktion um das Quiz neu zu starten.........................................................................................
+function restart_quiz() {
+    currentQuestion = 0;
+    points = 0;
+    resetSelections();
+    showPlayscreen();
+    init();
 }
